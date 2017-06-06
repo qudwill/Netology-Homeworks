@@ -1,16 +1,22 @@
+/**
+  * Позаимствовано со StackOverflow :)
+  */ 
+
 function getMonday(d) {
   d = new Date(d);
-  var day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6 : 1);
+
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day == 0 ? -6 : 1);
+
   return new Date(d.setDate(diff));
 }
 
+const DAY_NAMES = [ 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье' ];
+const MONTH_NAMES = [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ];
+const GENITIVE_MONTH_NAMES = [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ];
+
 const Calendar = function(props) {
   const { date } = props;
-
-  const days = [ 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье' ];
-  const months = [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ];
-  const genitiveMonths = [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ];
 
   const monthNumber = date.getMonth();
   const fullYear = date.getFullYear();
@@ -27,7 +33,18 @@ const Calendar = function(props) {
     let tds = [];
 
     for (let i = 0; i < 7; i++) {
-      tds.push(<td className={((tempDate.getMonth() !== monthNumber) ? 'ui-datepicker-other-month' : '') + ((tempDate.getDate() === date.getDate() && tempDate.getMonth() === monthNumber) ? 'ui-datepicker-today' : '')}>{tempDate.getDate()}</td>);
+      let currentClassName = '';
+
+      if (tempDate.getMonth() !== monthNumber) {
+        currentClassName = 'ui-datepicker-other-month';
+      }
+
+      if (tempDate.getDate() === date.getDate() && tempDate.getMonth() === monthNumber) {
+        currentClassName = 'ui-datepicker-today';
+      }
+
+      tds.push(<td className={ currentClassName }>{tempDate.getDate()}</td>);
+      
       tempDate = new Date(tempDate.getTime() + 864e5);
     }
 
@@ -37,16 +54,16 @@ const Calendar = function(props) {
   return (
     <div className='ui-datepicker'>
       <div className='ui-datepicker-material-header'>
-        <div className='ui-datepicker-material-day'>{ days[date.getDay() - 1] }</div>
+        <div className='ui-datepicker-material-day'>{ DAY_NAMES[date.getDay() - 1] }</div>
         <div className='ui-datepicker-material-date'>
           <div className='ui-datepicker-material-day-num'>{ date.getDate() }</div>
-          <div className='ui-datepicker-material-month'>{ genitiveMonths[monthNumber] }</div>
+          <div className='ui-datepicker-material-month'>{ GENITIVE_MONTH_NAMES[monthNumber] }</div>
           <div className='ui-datepicker-material-year'>{ fullYear }</div>
         </div>
       </div>
       <div className='ui-datepicker-header'>
         <div className='ui-datepicker-title'>
-          <span className='ui-datepicker-month'>{ months[monthNumber] }</span>&nbsp;<span className='ui-datepicker-year'>{ fullYear }</span>
+          <span className='ui-datepicker-month'>{ MONTH_NAMES[monthNumber] }</span>&nbsp;<span className='ui-datepicker-year'>{ fullYear }</span>
         </div>
       </div>
       <table className='ui-datepicker-calendar'>
