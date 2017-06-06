@@ -17,7 +17,7 @@ const Menu = function(props) {
 
 
   return (
-    <div className='menu menu-open'>
+    <div className={ opened ? 'menu menu-open' : 'menu' }>
       <div className='menu-toggle'>
         { spans }
       </div>
