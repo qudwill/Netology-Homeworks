@@ -1,24 +1,27 @@
 const Menu = function(props) {
   const { items, opened } = props;
+  const nav = [];
+  const spans = []
 
   if (opened) {
-    return (
-      <div className='menu menu-open'>
-        <div className='menu-toggle'>
-          <span></span>
-        </div>
-        <nav>
-          <ul>
-            {items.map((item) => <li><a href={item.href}>{item.title}</a></li>) }
-          </ul>
-        </nav>
-      </div>
+    nav.push(
+      <nav>
+        <ul>
+          { items.map((item) => <li><a href={item.href}>{item.title}</a></li>) }
+        </ul>
+      </nav>
     );
-  } else {
-    return (
-      <div className='menu'>
-        <div className='menu-toggle'></div>
-      </div>
-    );
+
+    spans.push(<span></span>);
   }
+
+
+  return (
+    <div className='menu menu-open'>
+      <div className='menu-toggle'>
+        { spans }
+      </div>
+      { nav }
+    </div>
+  );
 }
