@@ -18,7 +18,6 @@ const Menu = function(props) {
     );
   }
 
-
   return (
     <div className={ opened ? 'menu menu-open' : 'menu' }>
       <div className='menu-toggle'>

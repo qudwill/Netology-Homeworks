@@ -1,7 +1,3 @@
-/**
-  * Позаимствовано со StackOverflow :)
-  */ 
-
 function getMonday(d) {
   d = new Date(d);
 
@@ -12,6 +8,7 @@ function getMonday(d) {
 }
 
 const DAY_NAMES = [ 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье' ];
+const SHORT_DAY_NAMES = [ 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс' ];
 const MONTH_NAMES = [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ];
 const GENITIVE_MONTH_NAMES = [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ];
 
@@ -28,6 +25,35 @@ const Calendar = function(props) {
   let tempDate = getMonday(firstDate);
 
   let weeks = [];
+
+  /**
+    * Явялется ли нормальным использование массивов и ф-ии .push() в подобных случаях?
+    * Или есть какие-то другие более оптимальные практики?
+    * Я не особо знаком с особенностями React, поэтому в меню использовал такой же пример,
+    * т.к. увидел похожую реализацию в чужом примере
+    */
+
+  let colGroupItems = [];
+  let theadRowItems = [];
+
+  for (let i = 0; i < 7; i++) {
+    colGroupItems.push(<col className={(i === 5 || i === 6) ? 'ui-datepicker-week-end' : ''} />);
+    theadRowItems.push(<th scope='col' title={DAY_NAMES[i]}>{SHORT_DAY_NAMES[i]}</th>)
+  }
+
+  const colGroup = (
+    <colgroup>
+      {colGroupItems}
+    </colgroup>
+  );
+
+  const thead = (
+    <thead>
+      <tr>
+        {theadRowItems}
+      </tr>
+    </thead>
+  );
 
   while (tempDate < lastDate && tempDate.getDay() != 6) {
     let tds = [];
@@ -67,26 +93,8 @@ const Calendar = function(props) {
         </div>
       </div>
       <table className='ui-datepicker-calendar'>
-        <colgroup>
-          <col />
-          <col />
-          <col />
-          <col />
-          <col />
-          <col className='ui-datepicker-week-end' />
-          <col className='ui-datepicker-week-end' />
-        </colgroup>
-        <thead>
-          <tr>
-            <th scope='col' title='Понедельник'>Пн</th>
-            <th scope='col' title='Вторник'>Вт</th>
-            <th scope='col' title='Среда'>Ср</th>
-            <th scope='col' title='Четверг'>Чт</th>
-            <th scope='col' title='Пятница'>Пт</th>
-            <th scope='col' title='Суббота'>Сб</th>
-            <th scope='col' title='Воскресенье'>Вс</th>
-          </tr>
-        </thead>
+        {colGroup}
+        {thead}
         <tbody>
           {weeks}
         </tbody>
