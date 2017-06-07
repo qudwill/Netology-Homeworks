@@ -1,10 +1,11 @@
 const Menu = function(props) {
   const { items, opened } = props;
-  const nav = [];
-  const spans = []
+
+  let nav = null;
+  let spans = null;
 
   if (opened) {
-    nav.push(
+    nav = (
       <nav>
         <ul>
           { items.map((item) => <li><a href={item.href}>{item.title}</a></li>) }
@@ -12,7 +13,9 @@ const Menu = function(props) {
       </nav>
     );
 
-    spans.push(<span></span>);
+    spans = (
+      <span></span>
+    );
   }
 
 
